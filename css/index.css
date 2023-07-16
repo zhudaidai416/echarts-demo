@@ -114,6 +114,11 @@ header .showTime {
   font-size: 0.25rem;
   font-weight: 400;
 }
+.main .panel h2 a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 0.125rem;
+}
 .main .panel .chart {
   height: 3rem;
 }
@@ -236,5 +241,15 @@ header .showTime {
   }
   to {
     transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 42px !important;
+  }
+}
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 80px !important;
   }
 }

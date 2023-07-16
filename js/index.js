@@ -1,5 +1,5 @@
 // 左侧部分
-// 柱状图1 - 就业行业
+// ========================== 柱状图1 - 就业行业 ==========================
 (function () {
   var myChart = echarts.init(document.querySelector('.bar1 .chart'));
   var option = {
@@ -26,7 +26,7 @@
         data: ['旅游行业', '教育培训', '游戏行业', '医疗行业', '电商行业', '社交行业', '金融行业'],
         // 是否显示刻度
         axisTick: {
-          alignWithLabel: true
+          show: false
         },
         // x 轴文字标签样式
         axisLabel: {
@@ -75,23 +75,36 @@
       }
     ]
   };
-  
+
   myChart.setOption(option);
   // 跟随屏幕自适应
   window.addEventListener('resize', function () {
     myChart.resize();
-  })
+  });
 })();
 
-// 折线图1 - 人员变化
+// ========================== 折线图1 - 人员变化 ==========================
 (function () {
+  var yearData = [
+    {
+      year: '2020',
+      data: [
+        [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
+        [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79]
+      ]
+    },
+    {
+      year: '2021',
+      data: [
+        [123, 175, 112, 197, 121, 67, 98, 21, 43, 64, 76, 38],
+        [143, 131, 165, 123, 178, 21, 82, 64, 43, 60, 19, 34]
+      ]
+    }
+  ];
   var myChart = echarts.init(document.querySelector('.line1 .chart'));
   var option = {
     tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
+      trigger: 'axis'
     },
     grid: {
       top: '20%',
@@ -115,7 +128,7 @@
         show: false
       },
       axisLabel: {
-        color: 'rgba(255,255,255,.6)',
+        color: '#4c9bfd',
         fontSize: 12
       },
       axisLine: {
@@ -145,16 +158,14 @@
       {
         name: '新增粉丝',
         type: 'line',
-        stack: "总量",
         smooth: true,
-        data: [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
+        data: yearData[0].data[0],
       },
       {
         name: '新增游客',
         type: 'line',
-        stack: "总量",
         smooth: true,
-        data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79],
+        data: yearData[0].data[1],
       },
     ]
   };
@@ -162,62 +173,58 @@
   myChart.setOption(option);
   window.addEventListener('resize', function () {
     myChart.resize();
-  })
+  });
+
+  // 点击切换效果
+  $('.line1 h2').on('click', 'a', function () {
+    // console.log(yearData[$(this).index()]);
+    var obj = yearData[$(this).index()]
+    option.series[0].data = obj.data[0];
+    option.series[1].data = obj.data[1];
+
+    // 重新渲染
+    myChart.setOption(option);
+  });
 })();
 
-// 饼状图1 - 年龄分布
+// ========================== 饼状图1 - 年龄分布 ==========================
 (function () {
   var myChart = echarts.init(document.querySelector('.pie1 .chart'));
   var option = {
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
     },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
+    legend: {
+      bottom: '0%',
+      itemWidth: 10,
+      itemHeight: 10,
+      // 修改图例组件的文字为 12px
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: 12
       }
     },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
+    color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab'],
     series: [
       {
-        name: 'Email',
-        type: 'line',
-        stack: 'Total',
-        data: [120, 132, 101, 134, 90, 230, 210]
-      },
-      {
-        name: 'Union Ads',
-        type: 'line',
-        stack: 'Total',
-        data: [220, 182, 191, 234, 290, 330, 310]
-      },
-      {
-        name: 'Video Ads',
-        type: 'line',
-        stack: 'Total',
-        data: [150, 232, 201, 154, 190, 330, 410]
-      },
-      {
-        name: 'Direct',
-        type: 'line',
-        stack: 'Total',
-        data: [320, 332, 301, 334, 390, 330, 320]
-      },
-      {
-        name: 'Search Engine',
-        type: 'line',
-        stack: 'Total',
-        data: [820, 932, 901, 934, 1290, 1330, 1320]
+        name: '年龄分布',
+        type: 'pie',
+        center: ['50%', '45%'],
+        radius: ['40%', '60%'],
+        label: {
+          show: false,
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          { value: 1, name: '0岁以下' },
+          { value: 4, name: '20-29岁' },
+          { value: 2, name: '30-39岁' },
+          { value: 2, name: '40-49岁' },
+          { value: 1, name: '50岁以上' }
+        ]
       }
     ]
   };
@@ -225,22 +232,16 @@
   myChart.setOption(option);
   window.addEventListener('resize', function () {
     myChart.resize();
-  })
-
+  });
 })();
 
+
 // 右侧部分
-// 柱状图2 - 技能掌握
+// ========================== 柱状图2 - 技能掌握 ==========================
 (function () {
   var myChart = echarts.init(document.querySelector('.bar2 .chart'));
   var myColor = ['#1089E7', '#F57474', '#56D0E3', '#F8B448', '#8B78F6'];
   var option = {
-    // tooltip: {
-    //   trigger: 'axis',
-    //   axisPointer: {
-    //     type: 'shadow'
-    //   }
-    // },
     grid: {
       top: '10%',
       left: '22%',
@@ -261,7 +262,7 @@
           show: false
         },
         axisLabel: {
-          color: '#fff',
+          color: 'rgba(255,255,255,.6)',
         }
       },
       {
@@ -275,7 +276,7 @@
           show: false
         },
         axisLabel: {
-          color: '#fff',
+          color: 'rgba(255,255,255,.6)',
           fontSize: 12
         }
       },
@@ -319,65 +320,151 @@
       },
     ]
   };
+
   myChart.setOption(option);
   window.addEventListener('resize', function () {
     myChart.resize();
-  })
+  });
 })();
 
-// 折线图2 - 播放量
+// ========================== 折线图2 - 播放量 ==========================
 (function () {
   var myChart = echarts.init(document.querySelector('.line2 .chart'));
   var option = {
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      top: '0%',
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: 12
+      },
+    },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
+      top: '30',
+      bottom: '10',
+      left: '10',
+      right: '10',
       containLabel: true
     },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          textStyle: {
+            color: 'rgba(255,255,255,.6)',
+            fontSize: 12
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,.2)'
+          }
+        },
+        data: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "26", "28", "29", "30"]
       }
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,.1)'
+          }
+        },
+        axisLabel: {
+          textStyle: {
+            color: 'rgba(255,255,255,.6)',
+            fontSize: 12
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(255,255,255,.1)'
+          }
+        }
+      }
+    ],
     series: [
       {
-        name: 'Email',
+        name: '邮件营销',
         type: 'line',
-        stack: 'Total',
-        data: [120, 132, 101, 134, 90, 230, 210]
+        smooth: true,
+        lineStyle: {
+          color: '#0184d5',
+          width: 2
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgba(1, 132, 213, 0.4)'   // 渐变色的起始颜色
+            },
+            {
+              offset: 0.8,
+              color: 'rgba(1, 132, 213, 0.1)'   // 渐变线的结束颜色
+            }
+          ],
+            false
+          ),
+          shadowColor: 'rgba(0, 0, 0, 0.1)'
+        },
+        // 设置拐点小圆点
+        symbol: 'circle',
+        // 拐点大小
+        symbolSize: 8,
+        // 设置拐点颜色以及边框
+        itemStyle: {
+          color: '#0184d5',
+          borderColor: 'rgba(221, 220, 107, .1)',
+          borderWidth: 12
+        },
+        // 开始不显示拐点，鼠标经过显示
+        showSymbol: false,
+        data: [30, 40, 30, 40, 30, 40, 30, 60, 20, 40, 30, 40, 30, 40, 30, 40, 30, 60, 20, 40, 30, 40, 30, 40, 30, 40, 20, 60, 50, 40]
       },
       {
-        name: 'Union Ads',
+        name: '联盟广告',
         type: 'line',
-        stack: 'Total',
-        data: [220, 182, 191, 234, 290, 330, 310]
-      },
-      {
-        name: 'Video Ads',
-        type: 'line',
-        stack: 'Total',
-        data: [150, 232, 201, 154, 190, 330, 410]
-      },
-      {
-        name: 'Direct',
-        type: 'line',
-        stack: 'Total',
-        data: [320, 332, 301, 334, 390, 330, 320]
-      },
-      {
-        name: 'Search Engine',
-        type: 'line',
-        stack: 'Total',
-        data: [820, 932, 901, 934, 1290, 1330, 1320]
+        smooth: true,
+        lineStyle: {
+          color: '#00d887',
+          width: 2
+        },
+        areaStyle: {
+          normal: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgba(0, 216, 135, 0.4)'
+              },
+              {
+                offset: 0.8,
+                color: 'rgba(0, 216, 135, 0.1)'
+              }
+            ],
+              false
+            ),
+            shadowColor: 'rgba(0, 0, 0, 0.1)'
+          }
+        },
+        symbol: 'circle',
+        symbolSize: 5,
+        itemStyle: {
+          color: '#00d887',
+          borderColor: 'rgba(221, 220, 107, .1)',
+          borderWidth: 12
+        },
+        showSymbol: false,
+        data: [130, 10, 20, 40, 30, 40, 80, 60, 20, 40, 90, 40, 20, 140, 30, 40, 130, 20, 20, 40, 80, 70, 30, 40, 30, 120, 20, 99, 50, 20]
       }
     ]
   };
@@ -385,11 +472,62 @@
   myChart.setOption(option);
   window.addEventListener('resize', function () {
     myChart.resize();
-  })
-
+  });
 })();
 
-// 饼状图2 - 地区分布
+// ========================== 饼状图2 - 地区分布 ==========================
 (function () {
+  var myChart = echarts.init(document.querySelector('.pie2 .chart'));
+  var option = {
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    legend: {
+      bottom: '0%',
+      itemWidth: 10,
+      itemHeight: 10,
+      // 修改图例组件的文字为 12px
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: 12
+      }
+    },
+    color: ['#006cff', '#60cda0', '#ed8884', '#ff9f7f', '#0096ff', '#9fe6b8', '#32c5e9', '#1d9dff'],
+    series: [
+      {
+        name: '地区分布',
+        type: 'pie',
+        center: ['50%', '40%'],
+        radius: ['10%', '60%'],
+        roseType: 'radius',
+        // 修饰饼形图文字相关的样式
+        label: {
+          fontSize: 10
+        },
+        // 修饰引导线样式
+        labelLine: {
+          // 连接到图形的线长度
+          length: 10,
+          // 连接到文字的线长度
+          length2: 10
+        },
+        data: [
+          { value: 20, name: '云南' },
+          { value: 26, name: '北京' },
+          { value: 24, name: '山东' },
+          { value: 25, name: '河北' },
+          { value: 20, name: '江苏' },
+          { value: 25, name: '浙江' },
+          { value: 30, name: '四川' },
+          { value: 42, name: '湖北' }
+        ]
+      }
+    ]
+  };
 
+  myChart.setOption(option);
+  window.addEventListener('resize', function () {
+    myChart.resize();
+  });
 })();

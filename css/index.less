@@ -23,6 +23,7 @@ body {
   line-height: 1.15;
 }
 
+// 头部
 header {
   position: relative;
   height: 1.25rem;
@@ -132,6 +133,12 @@ header {
       text-align: center;
       font-size: .25rem;
       font-weight: 400;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 .125rem;
+      }
     }
 
     .chart {
@@ -267,7 +274,8 @@ header {
     from {
       transform: translate(-50%, -50%) rotate(0deg);
     }
-    to{
+
+    to {
       transform: translate(-50%, -50%) rotate(360deg);
     }
   }
@@ -276,8 +284,21 @@ header {
     from {
       transform: translate(-50%, -50%) rotate(0deg);
     }
-    to{
+
+    to {
       transform: translate(-50%, -50%) rotate(-360deg);
     }
+  }
+}
+
+// 约束屏幕尺寸
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 42px !important;
+  }
+}
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 80px !important;
   }
 }
